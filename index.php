@@ -2,13 +2,11 @@
     session_start();
 ?>
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Example Title</title>
-    <meta name="author" content="Your Name">
-    <meta name="description" content="Example description">
+    <title>Molto Recipes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,800,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -24,8 +22,8 @@
     ?>
 
     <!-- TITLE PAGE -->
-    <div class="titlePage">
-        <div class="keywords">
+    <div class="title-page">
+        <div class="keyword">
             <br><br><br><br>
             <a href="#">cookies</a>
             <a href="#">cookies</a>
@@ -37,17 +35,18 @@
             <a href="#">cookies</a>
             <a href="#">cookies</a>
         </div>
-        <input type="text" id="searchInput" placeholder="Search recipe..." name="keyword">
+        <input type="text" id="search-input" placeholder="Search recipe..." name="keyword">
     </div>
     <!-- RECIPES -->
-    <div class="recipes">
+    <div class="recipe-block">
         <?php
     require_once 'includes\dbh.inc.php';
         
-    if($result = $conn->query("SELECT r.recipe_id, r.recipe_name, u.user_id, r.preparation_time, r.image, u.user_name, rr.recipe_rating_id, ROUND(AVG(rr.rating), 0) FROM `recipes` r 
-    join `users` u on u.user_id=r.user_id
-    left join `recipes_ratings` rr on rr.recipe_id = r.recipe_id
-    group by recipe_id")){
+    if($result = $conn->query("SELECT r.recipe_id, r.recipe_name, u.user_id, r.preparation_time, u.user_name, rr.recipe_rating_id, i.image, ROUND(AVG(rr.rating), 0) 
+    FROM `recipes` r 
+    join `users` u on u.user_id=r.user_id 
+    right join `images` i on i.recipe_id=r.recipe_id 
+    left join `recipes_ratings` rr on rr.recipe_id = r.recipe_id group by recipe_id")){
         $table = $result->fetch_all(MYSQLI_ASSOC);
          $i=0;
                 foreach($table as $row){
@@ -69,11 +68,11 @@
                             echo "<span><img src=\"img/goldenspoonIcon.png\"></span> \n";
                     }
                     echo "</div> \n";
-                    echo "<span class=\"typeofrecipe\">SNACKS</span> \n";
-                    echo "<p class=\"recipeName\">".$table[$i]['recipe_name']."</p> \n";
+                    echo "<span class=\"type-of-recipe\">SNACKS</span> \n";
+                    echo "<p class=\"recipe-name\">".$table[$i]['recipe_name']."</p> \n";
                     echo "<ul> \n";
                     echo "<li><span class=\"icon\" style=\"background-image: url(img/personIcon.png);\"></span>by ".$table[$i]['user_name']."</li> \n";
-                    echo "<img class=\"verticalline\" src=\"img/verticalline.png\" alt=\"verticalline\"> \n";
+                    echo "<img class=\"vertical-line\" src=\"img/verticalline.png\" alt=\"verticalline\"> \n";
                     echo "<li><span class=\"icon\" style=\"background-image: url(img/clockIcon.png);\"></span>".$table[$i]['preparation_time']." Mins</li> \n";
                     echo "</ul> \n";
                     echo "</div> \n";
@@ -110,18 +109,7 @@
         /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
         function loginFunction() {
-            document.getElementById("loginmyDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('.loginDropbtn')) {
-                var dropdowns = document.getElementsByClassName("loginDropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                }
-            }
+            document.getElementById("login-my-dropdown").classList.toggle("show");
         }
 
     </script>

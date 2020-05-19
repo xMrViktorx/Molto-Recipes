@@ -77,7 +77,7 @@ nav ul {
     position: fixed;
 }
 
-#leftList {
+#left-list {
     left: 150px;
     margin-left: 15px;
 }
@@ -126,7 +126,7 @@ nav a#upload {
 
 /* LOGIN */
 
-.loginDropbtn {
+.login-dropbtn {
     color: #ff3d26;
     font-size: 20px;
     background: none;
@@ -135,7 +135,7 @@ nav a#upload {
     padding-right: 20px;
 }
 
-.loginDropdown {
+.login-dropdown {
     float: right;
     position: relative;
     display: inline-block;
@@ -143,7 +143,7 @@ nav a#upload {
     line-height: 55px;
 }
 
-.loginDropdown-content {
+.login-dropdown-content {
     display: none;
     position: absolute;
     text-align: center;
@@ -157,17 +157,18 @@ nav a#upload {
     padding: 10px;
     padding-left: 17px;
     padding-right: 17px;
+    z-index: 2;
 }
 
-.loginDropdown-content a {
+.login-dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
 
-.loginDropdown input[type=text],
-.loginDropdown input[type=password] {
+.login-dropdown input[type=text],
+.login-dropdown input[type=password] {
     border: 1px solid #cecece;
     margin-top: 10px;
     height: 40px;
@@ -176,7 +177,7 @@ nav a#upload {
     border-radius: 20px;
 }
 
-.loginDropdown input[type=submit] {
+.login-dropdown input[type=submit] {
     color: white;
     background-color: #ff3d26;
     text-decoration: none;
@@ -194,12 +195,12 @@ nav a#upload {
     font-size: 25px;
 }
 
-.loginDropdown p:last-of-type {
+.login-dropdown p:last-of-type {
     font-size: 13px;
 
 }
 
-.loginDropdown a {
+.login-dropdown a {
     color: #ff3d26;
     font-size: 13px;
     margin: 0;
@@ -245,7 +246,7 @@ span#orspan {
     border-radius: 12px;
 }
 
-#menuToggle {
+#menu-toggle {
     display: none;
 }
 
@@ -292,15 +293,15 @@ span#orspan {
         display: block;
     }
 
-    #rightList,
-    #leftList {
+    #right-list,
+    #left-list {
         right: 0;
         left: 0;
     }
 
     /* HAMBURGER */
 
-    #menuToggle:checked ~ ul {
+    #menu-toggle:checked ~ ul {
         max-height: 350px;
     }
 
@@ -311,7 +312,7 @@ span#orspan {
 }
 
 /* TITLEPAGE */
-.titlePage {
+.title-page {
     background-image: url(img/background-image.png);
     background-size: cover;
     background-repeat: no-repeat;
@@ -319,11 +320,11 @@ span#orspan {
     height: 800px;
 }
 
-.keywords {
+.keyword {
     text-align: center;
 }
 
-.keywords a {
+.keyword a {
     color: #fff;
     text-decoration: none;
     border: 1px solid #fff;
@@ -333,13 +334,13 @@ span#orspan {
     line-height: 50px;
 }
 
-.keywords a:hover {
+.keyword a:hover {
     background: #fff;
     color: #000;
 
 }
 
-.titlePage input[type=text] {
+.title-page input[type=text] {
     display: block;
     color: #fff;
     margin: 200px auto;
@@ -350,7 +351,7 @@ span#orspan {
     text-align: center;
 }
 
-#searchInput::placeholder {
+#search-input::placeholder {
     color: #fff;
     opacity: 1;
     text-align: center;
@@ -358,7 +359,7 @@ span#orspan {
 
 /* RECIPES */
 
-.recipes {
+.recipe-block {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -387,7 +388,7 @@ span#orspan {
     border-top-right-radius: 10px;
 }
 
-.outside p.recipeName {
+.outside p.recipe-name {
     color: #000;
     font-size: 20px;
     font-weight: 600;
@@ -395,14 +396,14 @@ span#orspan {
     height: 50px;
 }
 
-.typeofrecipe {
+.type-of-recipe {
     color: #f00;
     font-size: 12px;
     font-weight: 600;
     margin-left: 20px;
 }
 
-.verticalline {
+.vertical-line {
     height: 10px;
     margin-left: 10px;
 }
@@ -423,6 +424,7 @@ span#orspan {
     padding: 5px 5px 15px 5px;
     margin-top: 10px;
     font-size: 10px;
+    color: #000;
 }
 
 .outside ul li span {
@@ -437,3 +439,219 @@ span#orspan {
 }
 
 
+/* UPLOAD RECIPE */
+#upload-header {
+    text-align: center;
+    padding-top: 80px;
+    color: #ff3d26;
+    font-size: 60px;
+}
+
+#form-upload {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+#form-upload p {
+    padding-bottom: 20px;
+    padding-top: 30px;
+    text-align: left;
+    font-weight: bold;
+}
+
+#form-upload input[type=text]:nth-child(2) {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #cecece;
+    border-radius: 25px;
+    font-size: 13px;
+}
+
+#form-upload input[type=number] {
+    height: 40px;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #cecece;
+    border-radius: 25px;
+    font-size: 13px;
+    margin-right: 10px;
+}
+
+#form-upload input[type=text]#ingradient {
+    height: 40px;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #cecece;
+    border-radius: 25px;
+    font-size: 13px;
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.add-button {
+    height: 40px;
+    width: 55px;
+    padding: 10px;
+    border: 2px solid #ff3d26;
+    border-radius: 25px;
+    color: #ff3d26;
+    background-color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#ingradient-preview span {
+    border: 1px solid #cecece;
+    padding: 8px;
+    margin: 3px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+#ingradient-preview span:hover{
+    background: #ff3d26;
+    color: #fff;
+}
+
+#plus {
+    display: inline-block;
+    font-size: 40px;
+}
+
+#plus-button {
+    vertical-align: middle;
+    cursor: pointer;
+    width: 56px;
+    height: 56px;
+    margin-right: 10px;
+    border-radius: 50%;
+    border: none;
+    font-weight: 300;
+    background: white;
+    border: 1px solid #EE422F;
+    color: #EE422F;
+}
+
+#form-upload textarea {
+    border: 1px solid #cecece;
+    border-radius: 25px;
+    font-size: 13px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#form-upload #step-preview span {
+    text-align: left;
+    position: absolute;
+    background-color: #fff;
+    margin-left: 30px;
+    margin-top: -8px;
+    color: #f00;
+    padding: 0 5px;
+}
+
+#form-upload #step-preview span:before {
+    content: attr(data-value);
+}
+
+span#first-step:after {
+    content: "Step1";
+}
+
+#step-button {
+    background-color: #fff;
+    border: 2px dashed #ff3d26;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    padding: 8px 0;
+    color: #ff3d26;
+    font-size: 15px;
+}
+
+.dose-button {
+    color: #ff3d26;
+    cursor: pointer;
+    border: 1px solid #ff3d26;
+    border-radius: 50%;
+    font-size: 30px;
+    padding: 5px 14.775px;
+}
+
+
+#dose-text {
+    font-size: 25px;
+    font-style: italic;
+    padding: 0 30px;
+    font-weight: bold;
+}
+
+#dose-number {
+    color: #ff3d26;
+    font-size: 45px;
+}
+
+#image-label {
+    color: #ff3d26;
+    border: 2px dashed #ff3d26;
+    float: left;
+    line-height: 150px;
+    width: 150px;
+    height: 150px;
+    border-radius: 30px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#preview-image img {
+    width: 150px;
+    height: 150px;
+    float: left;
+}
+
+
+#select-category {
+    float: left;
+}
+
+#form-upload table {
+    margin: auto;
+}
+
+#form-upload table td {
+    padding-right: 3vw;
+}
+
+#form-upload table td .diff-spoon {
+    display: inline-block;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#form-upload table td label img {
+    padding: 20px;
+    width: 80px;
+}
+
+#form-upload #upload-button {
+    color: #fff;
+    background-color: #ff3d26;
+    cursor: pointer;
+    border: none;
+    height: 50px;
+    width: 200px;
+    padding: 10px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    border-radius: 25px;
+    font-size: 25px;
+}
+
+#help-container {
+    vertical-align: middle;
+    text-align: left;
+}

@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(img/background-image.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sign-up-left {
+    float: left;
+    color: #fff;
+    width: 50%;
+    height: 100vh;
+    text-align: center;
+}
+
+.sign-up-left img {
+    width: 300px;
+    margin-top: 200px;
+    margin-bottom: 50px;
+}
+
+.sign-up-left p {
+    font-size: 35px;
+    margin-bottom: 50px;
+}
+
+.sign-up-left p#quote {
+    font-size: 20px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.sign-up-left p#signed {
+    font-size: 15px;
+}
+
+.sign-up-left a {
+    color: #ff3d26;
+    background-color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 50px;
+    font-size: 25px;
+}
+
+.sign-up-right {
+    float: right;
+    background-color: #fff;
+    width: 50%;
+    height: 100vh;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    text-align: center;
+}
+
+.sign-up-right form {
+    display: inline-block;
+}
+
+.sign-up-right p#sign-up {
+    color: #ff3d26;
+    font-size: 60px;
+    font-weight: bold;
+    margin-top: 100px;
+    margin-bottom: 60px;
+}
+
+.sign-up-right input[type=text],
+.sign-up-right input[type=email],
+.sign-up-right input[type=password] {
+    border: 1px solid #cecece;
+    margin-bottom: 10px;
+    height: 40px;
+    width: 500px;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 13px;
+}
+
+.sign-up-right p#gender {
+    color: #ff3d26;
+    font-size: 25px;
+}
+
+.sign-up-right button[type=submit] {
+    color: #fff;
+    background-color: #ff3d26;
+    cursor: pointer;
+    border: none;
+    height: 50px;
+    width: 200px;
+    padding: 10px;
+    margin-top: 100px;
+    border-radius: 25px;
+    font-size: 25px;
+}
+
+/* CHECKBOX */
+/* The container */
+.container {
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    padding-left: 30px;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border: 2px solid #ee422f;
+    border-radius: 50%;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    top: 3px;
+    left: 3px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ee422f;
+}
+
+
+@media screen and (max-width: 1100px) {
+    body {
+        background-color: #fff;
+        background: none;
+    }
+
+    .sign-up-right {
+        width: 100%;
+        border-radius: 0;
+        height: auto;
+    }
+
+    .sign-up-left {
+        display: none;
+    }
+
+    .sign-up-right input[type=text],
+    .sign-up-right input[type=email],
+    .sign-up-right input[type=password] {
+        width: 100%;
+    }
+
+    .sign-up-right form {
+        display: block;
+        width: 80%;
+        margin: auto;
+    }
+}
