@@ -68,7 +68,7 @@ WHERE r.recipe_id=".$recipeid."")){
         <div class="background-image" style="background-image: url(img/dark_layer.png), url(img/<?php echo $image; ?>)">
             <div class="information">
                 <div class="left">
-                    <p><?php echo $recipeName ?> <img src="img/hearthIcon.png" style="height: 45px;"></p>
+                    <p><?php echo $recipeName ?> <img id="favorite-icon" src="img/hearthIcon.png" style="height: 45px;"></p>
                     <?php 
     
     $recipeid=$_GET['recipeid'];
@@ -103,16 +103,16 @@ WHERE r.recipe_id=".$recipeid."")){
             <div class="header-div">
                 <span class="header-span">INGRADIENTS</span>
             </div><br>
-            <span onclick="return minusDose()" class="dose-button" style="padding: 5px 17px;">-</span>
+            <span onclick="minusDose()" class="dose-button" style="padding: 5px 17px;">-</span>
             <span id="dose-text">for <span id="dose-number"><?php echo $dose ?></span> person</span>
-            <span onclick="return plusDose()" class="dose-button">+</span><br><br>
+            <span onclick="plusDose()" class="dose-button">+</span><br><br>
             <ul>
                 <?php
 if($result = $conn->query("SELECT quantity, unit, ingradient FROM `ingradients` WHERE recipe_id=".$recipeid."")){
         $table = $result->fetch_all(MYSQLI_ASSOC);
          $i=0;
                 foreach($table as $row){
-                    echo "<li>- <span>".$table[$i]['quantity']." ".$table[$i]['unit']."</span> ".$table[$i]['ingradient']."";
+                    echo "<li>- <span><span class=\"quantity\">".$table[$i]['quantity']."</span> ".$table[$i]['unit']."</span> ".$table[$i]['ingradient']."";
                 $i++;
         }       
         $result->free();
@@ -177,8 +177,50 @@ join users u on u.user_id = c.user_id order by c.comment_time WHERE recipe_id=".
         </div>
     </div>
 
+    <script>
+        var favoriteIcon = document.getElementById("favorite-icon");
+        favoriteIcon.addEventListener("click", function() {
+            if (favoriteIcon.src == "http://localhost/Molto_Recepies/img/hearthIcon.png")
+                favoriteIcon.src = "img/redHearth.png";
+            else
+                favoriteIcon.src = "img/hearthIcon.png";
+
+        });
+
+    </script>
+
 
     <script>
+        //DOSE
+        var dose = <?php echo $dose ?>;
+
+        function minusDose() {
+            if (dose > 1) {
+                dose--;
+                document.getElementById("dose-number").innerHTML = dose;
+                x = document.getElementsByClassName("quantity");
+                for (i = 0; i < x.length; i++) {
+                    let values = x[i].innerHTML;
+                    x[i].innerHTML = (values / (dose + 1)) * dose;
+                }
+            }
+        }
+
+        function plusDose() {
+            dose++;
+            document.getElementById("dose-number").innerHTML = dose;
+            x = document.getElementsByClassName("quantity");
+            for (i = 0; i < x.length; i++) {
+                let values = x[i].innerHTML;
+                x[i].innerHTML = (values / (dose - 1)) * dose;
+            }
+        }
+
+    </script>
+
+    <script>
+        //RATE
+
         var ratedIndex = -1;
         var userid = <?php 
     if(isset($_SESSION['userId'])){
@@ -247,9 +289,12 @@ join users u on u.user_id = c.user_id order by c.comment_time WHERE recipe_id=".
         }
 
         function setStarsOnClick(ratedIndex) {
-            for (var i = 0; i < (currentstars + ratedIndex + 1) / 2; i++) {
+            for (var i = 0; i < (currentstars + ratedIndex + 1); i++) {
                 $('.rating-icon:eq(' + i + ')').attr("src", "img/goldenspoonIcon.png");
             }
+            if (currentstars == 0)
+                currentstars2 = ratedIndex + 1;
+            else
             currentstars2 = (currentstars + ratedIndex + 1) / 2;
         }
 
