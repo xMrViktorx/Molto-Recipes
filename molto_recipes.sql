@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3306
--- Létrehozás ideje: 2020. Máj 19. 11:53
+-- Létrehozás ideje: 2020. Máj 20. 14:32
 -- Kiszolgáló verziója: 10.4.10-MariaDB
 -- PHP verzió: 7.3.12
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `image` tinytext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`image_id`),
   KEY `recipe_id` (`recipe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `images`
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `ingradients` (
   `ingradient` tinytext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ingradient_id`),
   KEY `recipe_id` (`recipe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `ingradients`
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `difficulty` tinytext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`recipe_id`),
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `recipes`
@@ -176,15 +176,15 @@ CREATE TABLE IF NOT EXISTS `recipes_ratings` (
   PRIMARY KEY (`recipe_rating_id`),
   KEY `recipe_id` (`recipe_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `recipes_ratings`
 --
 
 INSERT INTO `recipes_ratings` (`recipe_rating_id`, `recipe_id`, `user_id`, `rating`) VALUES
-(108, 40, 8, 5),
-(158, 40, 29, 2);
+(158, 40, 29, 2),
+(159, 40, 8, 5);
 
 -- --------------------------------------------------------
 
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `steps` (
   `step` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`step_id`),
   KEY `recept_recept_lepes` (`recipe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `steps`
