@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 </head>
 
 <body>
@@ -21,55 +20,59 @@
     require_once 'navbar.php';
     ?>
 
-    <!-- TITLE PAGE -->
-    <div class="title-page">
-        <div class="keyword">
-            <br><br><br><br>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="soup">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="vegan">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="cake">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="meat">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="snack">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="drink">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="salad">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="appetizer">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="pasta">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="bread & crescent">
+
+    <div id="fridge-push">
+    </div>
+    <div id="fridge">
+        <div id="fridge-top">
+            <hr id="fridge-handler">
+        </div>
+
+        <div id="fridge-middle">
+            <form method="get" id="ingradient-preview-fridge" name="fridge-form">
+                <input type="text" name="ingradient1" placeholder="Type ingradient here...">
+
+                <hr id="fridge-self">
+                <input type="text" name="ingradient2" placeholder="Type ingradient here...">
+
+                <hr id="fridge-self">
+                <input type="text" name="ingradient3" placeholder="Type ingradient here...">
+
+                <hr id="fridge-self">
+                <input type="text" name="ingradient4"  placeholder="Type ingradient here...">
+
+                <hr id="fridge-self">
+                <input type="text" name="ingradient5"  placeholder="Type ingradient here...">
+
+                <hr id="fridge-self">
+                <button class="add-button-fridge">Find my recipe!</button>
             </form>
         </div>
-        <form method="get" action="search-page.php">
-        <input type="text" id="search-input" placeholder="Search recipe..." name="keyword">
-        </form>
-    </div>
-    <!-- RECIPES -->
+        <div id="bottom-fridge-1"></div>
+        <div id="bottom-fridge-2"></div>
+        
+         <!-- RECIPES -->
     <div class="recipe-block">
         <?php
     require_once 'includes\dbh.inc.php';
-        
-    if($result = $conn->query("SELECT r.recipe_id, r.recipe_name, u.user_id, r.preparation_time,r.category, u.user_name, rr.recipe_rating_id, i.image, ROUND(AVG(rr.rating), 0) 
-    FROM `recipes` r 
+    if(isset($_GET['ingradient1'])){
+        $ingradient1=$_GET['ingradient1'];
+        $ingradient2=$_GET['ingradient2'];
+        $ingradient3=$_GET['ingradient3'];
+        $ingradient4=$_GET['ingradient4'];
+        $ingradient5=$_GET['ingradient5'];
+    if($result = $conn->query("SELECT DISTINCT r.recipe_id, r.recipe_name, u.user_id, ing.ingradient, r.preparation_time,r.category, u.user_name, rr.recipe_rating_id, i.image, ROUND(AVG(rr.rating), 0) 
+    FROM `ingradients` ing
+    join `recipes` r on r.recipe_id = ing.recipe_id
     join `users` u on u.user_id=r.user_id 
     right join `images` i on i.recipe_id=r.recipe_id 
-    left join `recipes_ratings` rr on rr.recipe_id = r.recipe_id group by recipe_id")){
+    left join `recipes_ratings` rr on rr.recipe_id = r.recipe_id
+    WHERE ('".$ingradient1."' IS NULL OR ing.ingradient  = '".$ingradient1."') OR
+    ('".$ingradient2."' IS NULL OR ing.ingradient  = '".$ingradient2."') OR
+    ('".$ingradient3."' IS NULL OR ing.ingradient  = '".$ingradient3."') OR
+    ('".$ingradient4."' IS NULL OR ing.ingradient  = '".$ingradient4."') OR
+    ('".$ingradient5."' IS NULL OR ing.ingradient  = '".$ingradient5."')
+    GROUP BY recipe_id")){
         $table = $result->fetch_all(MYSQLI_ASSOC);
          $i=0;
                 foreach($table as $row){
@@ -104,12 +107,14 @@
         }       
         $result->free();
     }
+    }
     
     ?>
 
     </div>
 
-
+    </div>
+    <br><br><br><br><br><br>
 
 
     <div class="loader-wrapper">

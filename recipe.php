@@ -37,9 +37,18 @@ WHERE r.recipe_id=".$recipeid."")){
     
     ?>
 
+
 <?php
-//COMMENT
+ //COMMENT
+    if(isset($_POST['submit'])){
+        $comment = $_POST['comment'];
+        $conn->query("INSERT INTO `comments` (`comment_id`, `user_id`, `recipe_id`, `comment`, `comment_time`) 
+        VALUES (null, '".$_SESSION['userId']."', '".$recipeid."', '".$comment."', null)");
+    }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="">
 
@@ -51,13 +60,6 @@ WHERE r.recipe_id=".$recipeid."")){
     <link rel="icon" type="image/x-icon" href="" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
-    <style>
-        div i {
-            color: green;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -68,10 +70,22 @@ WHERE r.recipe_id=".$recipeid."")){
         <div class="background-image" style="background-image: url(img/dark_layer.png), url(img/<?php echo $image; ?>)">
             <div class="information">
                 <div class="left">
-                    <p><?php echo $recipeName ?> <img id="favorite-icon" src="img/hearthIcon.png" style="height: 45px;"></p>
+                    <p><?php echo $recipeName;
+                        if(isset($_SESSION['userId'])){
+                            $userid = $_SESSION['userId'];
+                        }else {
+                            $userid = 0;
+                        }
+                $sql = "SELECT * FROM favorites WHERE recipe_id='".$recipeid."' AND user_id='".$userid."'";
+                $result = $conn->query($sql);
+                if($result->num_rows == 1) {
+                    echo " <img id=\"favorite-icon\" src=\"img/redHearth.png\" style=\"height: 45px; cursor: pointer\"> ";
+                }else {
+            echo " <img id=\"favorite-icon\" src=\"img/hearthIcon.png\" style=\"height: 45px; cursor: pointer\"> ";
+                }?>
+                        </p>
                     <?php 
     
-    $recipeid=$_GET['recipeid'];
     $yellowstars=0;
         
     if($result = $conn->query("SELECT ROUND(AVG(rating), 0) FROM `recipes_ratings` WHERE recipe_id='".$recipeid."'")){
@@ -130,7 +144,7 @@ if($result = $conn->query("SELECT step FROM `steps` WHERE recipe_id=".$recipeid.
         $table = $result->fetch_all(MYSQLI_ASSOC);
          $i=0;
                 foreach($table as $row){
-                    echo "<p><span>".($i+1).".</span> ".$table[$i]['step']."</span>";
+                    echo "<p onclick=\"followStep(this.id)\" id='step".$i."' style=\"cursor: pointer\"><span>".($i+1).".</span> ".$table[$i]['step']."</span>";
                 $i++;
         }       
         $result->free();
@@ -142,7 +156,7 @@ if($result = $conn->query("SELECT step FROM `steps` WHERE recipe_id=".$recipeid.
         <div class="comment-section">
             <br>
             <p>COMMENTS</p><br>
-            <form method="post" action="recipe.php">
+            <form method="post" action="<?php echo "recipe.php?recipeid=".$recipeid.""?>">
                 <span class="rounded-image"></span>
                 <input type="text" name="comment" placeholder="Add comment...">
                 <label for="send-comment" id="send-comment-button"></label>
@@ -152,7 +166,7 @@ if($result = $conn->query("SELECT step FROM `steps` WHERE recipe_id=".$recipeid.
             <div class="comment-field">
                 <?php
                     if($result = $conn->query("SELECT c.comment, c.comment_time, u.user_name FROM comments c
-join users u on u.user_id = c.user_id order by c.comment_time WHERE recipe_id=".$recipeid."")){
+join users u on u.user_id = c.user_id WHERE recipe_id=".$recipeid." order by c.comment_time DESC")){
         $table = $result->fetch_all(MYSQLI_ASSOC);
          $i=0;
                 foreach($table as $row){
@@ -161,7 +175,7 @@ join users u on u.user_id = c.user_id order by c.comment_time WHERE recipe_id=".
                 echo "<td rowspan=\"3\" style=\"width: 10%;\"><span class=\"rounded-image\"></span></td>";
                 echo "</tr>";
                 echo "<tr>";
-                echo "<td><span class=\"comment-name\">".$table[$i]['user_name']."</span><span class=\"comment-date\">2020.05.14</span></td>";
+                echo "<td><span class=\"comment-name\">".$table[$i]['user_name']."</span><span class=\"comment-date\">".$table[$i]['comment_time']."</span></td>";
                 echo "</tr>";
                 echo "<tr>";
                 echo "<td><span class=\"comment-comment\">".$table[$i]['comment']."</span></td>";
@@ -175,53 +189,54 @@ join users u on u.user_id = c.user_id order by c.comment_time WHERE recipe_id=".
                     ?>
             </div>
         </div>
+
+        <div id="timerContainer">
+            <div class="timer" onclick="startTimer()">Start Timer!</div>
+            <div class="startTimer reset" onclick="startTimer()">
+                <i class="fas fa-play"></i>
+            </div>
+            <div class="pauseTimer reset" onclick="pauseTimer()">
+                <i class="fas fa-pause"></i>
+            </div>
+            <div class="resetTimer reset" onclick="resetTimer()">Reset</div>
+        </div>
+        <script type="text/javascript" src="js/stopWatch.js"></script>
     </div>
 
     <script>
-        var favoriteIcon = document.getElementById("favorite-icon");
-        favoriteIcon.addEventListener("click", function() {
-            if (favoriteIcon.src == "http://localhost/Molto_Recepies/img/hearthIcon.png")
-                favoriteIcon.src = "img/redHearth.png";
-            else
-                favoriteIcon.src = "img/hearthIcon.png";
-
+        //favorite-process
+        var userid = <?php 
+    if(isset($_SESSION['userId'])){
+        echo $_SESSION['userId'];
+    }else {
+        echo 0;
+    }
+    ?>;
+        var recipeid = <?php echo $_GET['recipeid'] ?>;
+        window.addEventListener('load', function() {
+            document.getElementById('favorite-icon').addEventListener('click', function(e) {
+                e.preventDefault();
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText == "success") {
+                            window.alert("Sucess");
+                        } else if (this.responseText == "error") {
+                            window.alert("error");
+                        }
+                    }
+                };
+                xhttp.open("POST", "favorite_process", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("userId=" + userid + "&recipeId=" + recipeid);
+            });
         });
 
     </script>
 
 
     <script>
-        //DOSE
         var dose = <?php echo $dose ?>;
-
-        function minusDose() {
-            if (dose > 1) {
-                dose--;
-                document.getElementById("dose-number").innerHTML = dose;
-                x = document.getElementsByClassName("quantity");
-                for (i = 0; i < x.length; i++) {
-                    let values = x[i].innerHTML;
-                    x[i].innerHTML = (values / (dose + 1)) * dose;
-                }
-            }
-        }
-
-        function plusDose() {
-            dose++;
-            document.getElementById("dose-number").innerHTML = dose;
-            x = document.getElementsByClassName("quantity");
-            for (i = 0; i < x.length; i++) {
-                let values = x[i].innerHTML;
-                x[i].innerHTML = (values / (dose - 1)) * dose;
-            }
-        }
-
-    </script>
-
-    <script>
-        //RATE
-
-        var ratedIndex = -1;
         var userid = <?php 
     if(isset($_SESSION['userId'])){
         echo $_SESSION['userId'];
@@ -233,98 +248,18 @@ join users u on u.user_id = c.user_id order by c.comment_time WHERE recipe_id=".
         var currentstars = <?php echo $yellowstars ?>;
         var currentstars2 = currentstars;
 
-
-        $(document).ready(function() {
-
-            $('.rating-icon').on('click', function() {
-                var ratedIndex = parseInt($(this).data('index'));
-                resetStarColors();
-                setStarsOnClick(ratedIndex);
-                saveToTheDB(ratedIndex);
-            });
-        });
-
-        $('.rating-icon').mouseover(function() {
-            resetStarColors();
-            var currentIndex = parseInt($(this).data('index'));
-            setStarsOver(currentIndex);
-        });
-
-        $('.rating-icon').mouseleave(function() {
-            resetStarColors();
-            setStarsLeave(currentstars);
-        });
-
-        function saveToTheDB(ratedIndex) {
-            $.ajax({
-                url: 'fetch.php',
-                method: 'POST',
-                cache: 'false',
-                dataType: 'json',
-                data: {
-                    save: 1,
-                    userid: userid,
-                    recipeid: recipeid,
-                    ratedIndex: ratedIndex
-                },
-                success: function(data) {
-                    console.log(data);
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        function setStarsOver(currentstars) {
-            for (var i = 0; i <= currentstars; i++) $('.rating-icon:eq(' + i + ')').attr("src", "img/easySpoon.png");
-        }
-
-        function setStarsLeave(currentstars) {
-            for (var i = 0; i < currentstars2; i++) $('.rating-icon:eq(' + i + ')').attr("src", "img/goldenspoonIcon.png");
-        }
-
-        function resetStarColors() {
-            $(".rating-icon").attr("src", "img/whiteSpoon.png");
-        }
-
-        function setStarsOnClick(ratedIndex) {
-            for (var i = 0; i < (currentstars + ratedIndex + 1); i++) {
-                $('.rating-icon:eq(' + i + ')').attr("src", "img/goldenspoonIcon.png");
-            }
-            if (currentstars == 0)
-                currentstars2 = ratedIndex + 1;
-            else
-            currentstars2 = (currentstars + ratedIndex + 1) / 2;
-        }
-
     </script>
+    <script src="js/recipe.js"></script>
 
-    <!-- LOADER 
     <div class="loader-wrapper">
         <span class="loader"><img src="img/goldenspoonIcon.png" class="loader-inner"></span>
-    </div> -->
+    </div>
 
     <!-- LOADER SCRIPT -->
-    <script>
-        $(window).on("load", function() {
-            $(".loader-wrapper").fadeOut("slow");
-        });
-
-    </script>
-
-
+    <script src="js/loader.js"></script>
 
     <!-- LOGIN DROPDOWN SCRIPT -->
-    <script>
-        /* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-        function loginFunction() {
-            document.getElementById("login-my-dropdown").classList.toggle("show");
-        }
-
-    </script>
-
+    <script src="js/loginDropdown.js"></script>
 </body>
 
 </html>

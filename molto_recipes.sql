@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3306
--- Létrehozás ideje: 2020. Máj 20. 14:32
+-- Létrehozás ideje: 2020. Jún 13. 12:20
 -- Kiszolgáló verziója: 10.4.10-MariaDB
 -- PHP verzió: 7.3.12
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`comment_id`),
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `recipe_id` (`recipe_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `comments`
@@ -62,7 +62,15 @@ CREATE TABLE IF NOT EXISTS `favorites` (
   PRIMARY KEY (`favorite_id`),
   KEY `recipe_id` (`recipe_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- A tábla adatainak kiíratása `favorites`
+--
+
+INSERT INTO `favorites` (`favorite_id`, `recipe_id`, `user_id`) VALUES
+(6, 40, 8),
+(7, 42, 8);
 
 -- --------------------------------------------------------
 
@@ -77,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `image` tinytext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`image_id`),
   KEY `recipe_id` (`recipe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `images`
@@ -103,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `ingradients` (
   `ingradient` tinytext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ingradient_id`),
   KEY `recipe_id` (`recipe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `ingradients`
@@ -148,18 +156,19 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `preparation_time` smallint(6) NOT NULL,
   `dose` tinyint(4) NOT NULL,
   `difficulty` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  `category` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`recipe_id`),
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `recipes`
 --
 
-INSERT INTO `recipes` (`recipe_id`, `user_id`, `recipe_name`, `preparation_time`, `dose`, `difficulty`) VALUES
-(40, 8, 'Fehér kenyér', 45, 6, 'Könnyű'),
-(42, 8, 'Tejfölös-sajtos csirkemell', 35, 4, 'Könnyű'),
-(43, 8, 'Egyszerű sajtos rudak', 35, 6, 'Könnyű');
+INSERT INTO `recipes` (`recipe_id`, `user_id`, `recipe_name`, `preparation_time`, `dose`, `difficulty`, `category`) VALUES
+(40, 8, 'Fehér kenyér', 45, 6, 'Könnyű', 'bread & crescent'),
+(42, 8, 'Tejfölös-sajtos csirkemell', 35, 4, 'Könnyű', 'meat'),
+(43, 8, 'Egyszerű sajtos rudak', 35, 6, 'Könnyű', 'snack');
 
 -- --------------------------------------------------------
 
@@ -176,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `recipes_ratings` (
   PRIMARY KEY (`recipe_rating_id`),
   KEY `recipe_id` (`recipe_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `recipes_ratings`
@@ -184,7 +193,9 @@ CREATE TABLE IF NOT EXISTS `recipes_ratings` (
 
 INSERT INTO `recipes_ratings` (`recipe_rating_id`, `recipe_id`, `user_id`, `rating`) VALUES
 (158, 40, 29, 2),
-(159, 40, 8, 5);
+(186, 42, 8, 4),
+(196, 43, 8, 5),
+(197, 40, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -199,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `steps` (
   `step` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`step_id`),
   KEY `recept_recept_lepes` (`recipe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `steps`
@@ -242,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `gender` tinytext COLLATE utf8_unicode_ci NOT NULL,
   `registration_date` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `users`
@@ -250,7 +261,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`user_id`, `user_name`, `email`, `password`, `first_name`, `last_name`, `gender`, `registration_date`) VALUES
 (8, 'admin', 'valaki@gmail.com', '$2y$10$8q2x24sPCLR.omDch7IAueKwajFWyGiI7pSPyuTQu8n4DwFbd4CIq', 'admin', 'admin', 'man', '2020-04-06 15:08:59'),
-(29, 'admin2', 'valami2@gmail.com', '$2y$10$oWhoSoKPJl5hBI9HWWL8X.iQv8j6hdoRQQptyYcH5WSe0VZWCv59q', 'admin2', 'admin2', 'man', '2020-05-18 18:02:27');
+(29, 'admin2', 'valami2@gmail.com', '$2y$10$oWhoSoKPJl5hBI9HWWL8X.iQv8j6hdoRQQptyYcH5WSe0VZWCv59q', 'admin2', 'admin2', 'man', '2020-05-18 18:02:27'),
+(30, 'asa', 'huhu@gmail.com', '$2y$10$BlidNmnlZVqiE0MBlOXj1.vH7Ss/cuWn9WZ4QPUM31YbIZy2OZSXy', 'asa', 'asa', 'man', '2020-05-21 08:34:50');
 
 --
 -- Megkötések a kiírt táblákhoz

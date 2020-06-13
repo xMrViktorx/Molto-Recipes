@@ -25,8 +25,8 @@
         
         if(isset($_POST['category'])) {
             //RECIPES
-            $conn->query("INSERT INTO `recipes` (`recipe_id`, `user_id`, `recipe_name`, `preparation_time`, `dose`, `difficulty`) 
-            VALUES (null, '".$userId."', '".$recipeName."', '".$preparationTime."', '".$dose."', '".$difficulty."')");
+            $conn->query("INSERT INTO `recipes` (`recipe_id`, `user_id`, `recipe_name`, `preparation_time`, `dose`, `difficulty`, `category`) 
+            VALUES (null, '".$userId."', '".$recipeName."', '".$preparationTime."', '".$dose."', '".$difficulty."', '".$category."')");
             
             
             //Ingradients
@@ -62,7 +62,7 @@
                 $conn->query("INSERT INTO `steps` (`step_id`, `recipe_id`, `step`) 
                 VALUES (null, '".$lastId."', '".$arr[$i]."')");
             }
-            
+            header('location: upload.php?message=thanks+for+your+upload'); 
         }
     }
 

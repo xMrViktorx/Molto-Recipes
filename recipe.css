@@ -227,6 +227,27 @@ span#orspan {
     padding: 0 10px;
 }
 
+#logout-form {
+    text-align: left;
+}
+#logout-form a{
+    text-decoration: none;
+    color: #757575;
+    font-size: 15px;
+    padding: 10px 0;
+}
+#logout-form button{
+    background: none;
+    border: none;
+    color: #757575;
+    font-size: 15px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+#logout-form hr {
+    border: 1px solid #f4f4f4;
+}
+
 /* HAMBURER */
 
 #hamburger {
@@ -349,6 +370,10 @@ span#orspan {
     cursor: pointer;
 }
 
+div i {
+    color: green;
+}
+
 /* INGRADIENTS */
 .header-div {
     width: 80%;
@@ -407,6 +432,7 @@ span#orspan {
     font-size: 30px;
     padding: 5px 14.775px;
 }
+
 /* STEPS */
 .step-section p {
     max-width: 1000px;
@@ -418,9 +444,11 @@ span#orspan {
     font-weight: 500;
     font-size: 20px;
 }
-.step-section{
+
+.step-section {
     margin-bottom: 50px;
 }
+
 .step-section p span {
     color: #ff3d26;
     font-size: 40px;
@@ -463,9 +491,11 @@ span#orspan {
     border-right: none;
     padding: 5px 15px;
 }
-.comment-section form{
+
+.comment-section form {
     margin-bottom: 20px;
 }
+
 .comment-section form #send-comment-button {
     display: inline-block;
     vertical-align: middle;
@@ -500,15 +530,60 @@ table {
     width: 100%;
 }
 
-hr{
+hr {
     border-top: 1px solid #cecece;
     width: 80%;
     margin: auto;
 }
+
 .comment-section hr {
     border-top: 1px solid #cecece;
     width: 90%;
     float: right;
+}
+
+#timerContainer {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    width: 400px;
+    margin: 20px auto;
+    min-height: 60px;
+    border-top: 0px;
+    position: fixed;
+    bottom: 55px;
+    left: 5px;
+}
+
+.timer,
+.reset {
+    float: left;
+    width: 200px;
+    padding: 10px 0;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    background: #A90000;
+    cursor: pointer;
+}
+
+.reset {
+    background: #550000;
+    color: white;
+    width: 14.9%;
+    border-left: 1px solid #990000;
+}
+
+.reset:hover {
+    background: #CC0000;
+}
+
+.lighter {
+    background: #CC0000
+}
+
+.fa-play,
+.fa-pause {
+    color: #fff;
 }
 
 /* MOBILE */
@@ -521,6 +596,7 @@ hr{
         text-align: center;
         float: none;
     }
+
     .background-image .information .right {
         text-align: center;
         float: none;

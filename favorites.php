@@ -21,55 +21,20 @@
     require_once 'navbar.php';
     ?>
 
-    <!-- TITLE PAGE -->
-    <div class="title-page">
-        <div class="keyword">
-            <br><br><br><br>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="soup">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="vegan">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="cake">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="meat">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="snack">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="drink">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="salad">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="appetizer">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="pasta">
-            </form>
-            <form method="post" action="keyword-page.php">
-                <input type="submit" name="category" value="bread & crescent">
-            </form>
-        </div>
-        <form method="get" action="search-page.php">
-        <input type="text" id="search-input" placeholder="Search recipe..." name="keyword">
-        </form>
-    </div>
-    <!-- RECIPES -->
+    <br><br>
+    <!-- FAVORITE RECIPES -->
     <div class="recipe-block">
         <?php
     require_once 'includes\dbh.inc.php';
         
-    if($result = $conn->query("SELECT r.recipe_id, r.recipe_name, u.user_id, r.preparation_time,r.category, u.user_name, rr.recipe_rating_id, i.image, ROUND(AVG(rr.rating), 0) 
+    if($result = $conn->query("SELECT r.recipe_id, r.recipe_name, u.user_id, r.preparation_time, u.user_name, rr.recipe_rating_id, i.image, ROUND(AVG(rr.rating), 0) 
     FROM `recipes` r 
     join `users` u on u.user_id=r.user_id 
     right join `images` i on i.recipe_id=r.recipe_id 
-    left join `recipes_ratings` rr on rr.recipe_id = r.recipe_id group by recipe_id")){
+    left join `recipes_ratings` rr on rr.recipe_id = r.recipe_id
+    join `favorites` f on f.recipe_id=r.recipe_id 
+    WHERE f.user_id='".$_SESSION['userId']."'
+    group by f.recipe_id")){
         $table = $result->fetch_all(MYSQLI_ASSOC);
          $i=0;
                 foreach($table as $row){
@@ -91,7 +56,7 @@
                             echo "<span><img src=\"img/goldenspoonIcon.png\"></span> \n";
                     }
                     echo "</div> \n";
-                    echo "<span class=\"type-of-recipe\">".$table[$i]['category']."</span> \n";
+                    echo "<span class=\"type-of-recipe\">SNACKS</span> \n";
                     echo "<p class=\"recipe-name\">".$table[$i]['recipe_name']."</p> \n";
                     echo "<ul> \n";
                     echo "<li><span class=\"icon\" style=\"background-image: url(img/personIcon.png);\"></span>by ".$table[$i]['user_name']."</li> \n";
@@ -108,8 +73,6 @@
     ?>
 
     </div>
-
-
 
 
     <div class="loader-wrapper">

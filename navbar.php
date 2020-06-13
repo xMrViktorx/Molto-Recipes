@@ -12,11 +12,20 @@
         <div class="login-dropdown">
                 <?php
                     if (isset($_SESSION['userId'])){
+                     require_once 'includes\dbh.inc.php';   
+                if($result = $conn->query("SELECT first_name, last_name FROM `users` WHERE user_id='".$_SESSION['userId']."'")){
+        $table = $result->fetch_all(MYSQLI_ASSOC);    
+        $result->free();  
+                }
                 echo "<button onclick=\"loginFunction()\" class=\"login-dropbtn\">Logged in</button>";
                 echo "<div id=\"login-my-dropdown\" class=\"login-dropdown-content\">";
-                echo '<form action="includes/logout.inc.php" method="post">
-                <button type="submit" name="logout-submit">Logout</button>
-                </form>';
+                echo "<form action=\"includes/logout.inc.php\" id=\"logout-form\" method=\"post\">
+                <p>".$table[0]['first_name']." ".$table[0]['last_name']."</p>
+                <hr>
+                <a href=\"favorites.php\">Favorites</a>
+                <hr>
+                <button type=\"submit\" name=\"logout-submit\">Logout</button>
+                </form>";
     }else{
                 echo "<button onclick=\"loginFunction()\" class=\"login-dropbtn\">Log in</button>";
                 echo "<div id=\"login-my-dropdown\" class=\"login-dropdown-content\">";
@@ -36,9 +45,9 @@
         <?php echo "</div>"; ?>
         <ul id="left-list">
             <li>
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Help me</a>
+                <a href="index.php">Home</a>
+                <a href="help.php">Help me</a>
+                <a href="moltofridge.php">Fridge</a>
             </li>
         </ul>
 
